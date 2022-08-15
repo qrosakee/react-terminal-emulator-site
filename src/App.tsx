@@ -23,17 +23,18 @@ function App() {
     );
   }, []);
 
+
   const commands = useMemo(() => ({
     'start': async () => {
-      await pushToHistory(<>
+          await pushToHistory(<>
           <div>
             <strong>Starting</strong> the server... <span style={{color: 'green'}}>Done</span>
           </div>
         </>);
     },
-    'alert': async () => {
+      'alert': async () => {
       alert('Hello!');
-      await pushToHistory(<>
+        await pushToHistory(<>
           <div>
             <strong>Alert</strong>
             <span style={{color: 'orange', marginLeft: 10}}>
@@ -46,10 +47,11 @@ function App() {
 
   return (
     <div className="App">
-      <Terminal
+          <Terminal
+              pushToHistory={pushToHistory}
         history={history}
         ref={setTerminalRef}
-        promptLabel={<>Write something awesome:</>}
+              promptLabel={<>root{'>'}</>}
         commands={commands}
       />
     </div>

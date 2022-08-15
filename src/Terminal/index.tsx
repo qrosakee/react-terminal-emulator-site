@@ -1,16 +1,16 @@
 import './terminal.css';
 import {ForwardedRef, forwardRef, useCallback, useEffect, useRef, useState} from "react";
-import {TerminalProps} from "./types";
+import { TerminalProps } from "./types";
 
 
 export const Terminal = forwardRef(
-  (props: TerminalProps, ref: ForwardedRef<HTMLDivElement>) => {
-    const {
-      history = [],
-      promptLabel = '>',
-
-      commands = {},
-    } = props;
+    (props: TerminalProps, ref: ForwardedRef<HTMLDivElement>) => {
+        const {
+            history = [],
+            promptLabel = '>',
+            pushToHistory = () => { },
+            commands = {},
+        } = props;
 
     const inputRef = useRef<HTMLInputElement>();
     const [input, setInputValue] = useState<string>('');
@@ -25,6 +25,7 @@ export const Terminal = forwardRef(
     const focusInput = useCallback(() => {
       inputRef.current?.focus();
     }, []);
+
 
 
     /**
@@ -43,10 +44,13 @@ export const Terminal = forwardRef(
     const handleInputKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-          const commandToExecute = commands?.[input.toLowerCase()];
-          if (commandToExecute) {
-            commandToExecute?.();
-          }
+            const commandToExecute = commands?.[input.toLowerCase()];
+            pushToHistory(<div>root{'>'} {input.toLowerCase()}</div>);
+            if (commandToExecute) {
+                commandToExecute?.();
+            } else {
+                pushToHistory(<>command not found</>);
+            }
           setInputValue('');
         }
       },

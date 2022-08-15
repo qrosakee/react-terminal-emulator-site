@@ -13,7 +13,8 @@ export type TerminalCommands = {
 };
 
 export type TerminalProps = {
-  history: TerminalHistory;
+    history: TerminalHistory;
+    pushToHistory: (item: TerminalHistoryItem) => void;
   promptLabel?: TerminalHistoryItem;
   commands: TerminalCommands;
 };
